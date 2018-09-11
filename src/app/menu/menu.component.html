@@ -1,0 +1,19 @@
+<div class="container"
+  fxLayout="column"
+  fxLayoutGap="10px">
+
+  <mat-list fxFlex>
+    <!-- component supplied by material design: allows creation of list of items, Angular Material List component -->
+    <!-- mat-list is similar to Bootstraps media object -->
+    <!-- fxFlex: means that this whole content(list in this case) will be treated as one whole unit -->
+    <mat-list-item *ngFor="let dish of dishes">
+      <!-- same as <li></li> -->
+      <!-- *ngFor: structural directive supplied by Angular: Allows to iterate over an array of items. (for loop) -->
+      <img matListAvatar src={{dish.image}} alt={{dish.name}}>
+      <h1 matLine> {{dish.name}} </h1>
+      <p matLine>
+        <span> {{dish.description}} </span>
+      </p>
+    </mat-list-item>
+  </mat-list>
+</div>
