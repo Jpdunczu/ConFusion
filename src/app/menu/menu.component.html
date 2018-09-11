@@ -14,13 +14,15 @@
       <mat-grid-tile *ngFor="let dish of dishes">
         <img height="200px" src={{dish.image}} alt={{dish.name}}>
         <mat-grid-tile-footer>
-          <h1 matLine> {{dish.name | uppercase }} </h1>
+          <h1 matLine> {{ dish.name | uppercase }} </h1>
         </mat-grid-tile-footer>
       </mat-grid-tile>
     </mat-grid-list>
   </div>
 
-  <!-- not the best way of doing this -->
+
+
+  <!-- not the best way of doing this
   <div fxFlex *ngIf="selectedDish">
     <mat-card>
       <mat-card-header>
@@ -39,7 +41,6 @@
     </mat-card>
   </div>
 
-<!--
   <mat-list fxFlex>
     <mat-list-item *ngFor="let dish of dishes">
       <img matListAvatar src={{dish.image}} alt={{dish.name}}>

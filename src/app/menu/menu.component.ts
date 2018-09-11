@@ -39,17 +39,19 @@ const DISHES: Dish[] = [
   }
 ];
 
+
 @Component({
   selector: 'app-menu',
   templateUrl: './menu.component.html',
   styleUrls: ['./menu.component.scss']
 })
+
 export class MenuComponent implements OnInit {
 
   // typescript types can be implictly defined.
   dishes = DISHES;
 
-  selectedDish = DISHES[0];
+  //selectedDish = DISHES[0];
 
   constructor() { }
 
