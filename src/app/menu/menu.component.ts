@@ -22,7 +22,8 @@ export class MenuComponent implements OnInit {
   constructor(private dishService: DishService) { }
 
   ngOnInit() {
-    // ask the service to fetch the required information. This lifecycle method is executed by Angular whenever this object is instantiated.
+    // ask the service to fetch the required information. 
+    // This lifecycle method is executed by Angular whenever this object is instantiated.
     this.dishes = this.dishService.getDishes();
   }
 
