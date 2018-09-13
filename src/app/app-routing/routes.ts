@@ -13,6 +13,8 @@ export const routes: Routes = [
     {path: 'about', component: AboutComponent},
     {path: 'contactus', component: ContactComponent},
     {path: 'menu', component: MenuComponent},
+    // :(name) defines a route parameter which the [routerLink]="['/dishdetail', dish.id]" passes in.
+    {path: 'dishdetail/:id', component: DishdetailComponent},
     {path: '', redirectTo: '/home', pathMatch: 'full'}
 ];
 
