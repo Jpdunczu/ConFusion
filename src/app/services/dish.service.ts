@@ -14,4 +14,15 @@ export class DishService {
   getDishes(): Dish[] {
     return DISHES;
   }
+
+  // arrow function in TS is a shorthand way of writing a method.
+  // filter the dishes array and filter out only the id which is specified.
+  getDish(id: number): Dish {
+    return DISHES.filter((dish) => (dish.id === id))[0];
+  }
+
+  getFeaturedDish(): Dish {
+    return DISHES.filter((dish) => (dish.featured))[0];
+  }
+
 }
