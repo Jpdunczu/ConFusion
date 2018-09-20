@@ -24,10 +24,10 @@ export class ContactComponent implements OnInit {
 
   createForm() {
     this.feedbackForm = this.fb.group({
-      firstname: '',
-      lastname: '',
-      telnum: 0,
-      email: '',
+      firstname: ['', Validators.required],
+      lastname: ['', Validators.required],
+      telnum: [0, Validators.required],
+      email: ['', Validators.required],
       agree: false,
       contacttype: 'None',
       message: ''
@@ -39,7 +39,15 @@ export class ContactComponent implements OnInit {
     // in this case, the data model and the form model have the exact same structure, which allows us to do this.
     this.feedback = this.feedbackForm.value;    
     console.log(this.feedback);
-    this.feedbackForm.reset(); // resets the form back to empty state.
+    this.feedbackForm.reset({
+      firstname: '',
+      lastname: '',
+      telnum: '',
+      email: '',
+      agree: false,
+      contacttype: 'None',
+      message: ''
+    }); // resets the form back to empty state.
   }
 
 }
