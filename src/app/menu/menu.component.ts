@@ -24,7 +24,9 @@ export class MenuComponent implements OnInit {
   ngOnInit() {
     // ask the service to fetch the required information. 
     // This lifecycle method is executed by Angular whenever this object is instantiated.
-    this.dishes = this.dishService.getDishes();
+    // chaining the .then method from the Promise
+    this.dishService.getDishes()
+      .then(dishes => this.dishes = dishes);
   }
 
   onSelect(dish: Dish) {

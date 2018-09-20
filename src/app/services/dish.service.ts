@@ -11,18 +11,19 @@ export class DishService {
 
   constructor() { }
 
-  getDishes(): Dish[] {
-    return DISHES;
+  getDishes(): Promise<Dish[]> {
+    // this is not a real Promise, as it does not deal with the fact that the service may not reolve immediately.
+    return Promise.resolve(DISHES);
   }
 
   // arrow function in TS is a shorthand way of writing a method.
   // filter the dishes array and filter out only the id which is specified.
-  getDish(id: number): Dish {
-    return DISHES.filter((dish) => (dish.id === id))[0];
+  getDish(id: number): Promise<Dish> {
+    return Promise.resolve(DISHES.filter((dish) => (dish.id === id))[0]);
   }
 
-  getFeaturedDish(): Dish {
-    return DISHES.filter((dish) => (dish.featured))[0];
+  getFeaturedDish(): Promise<Dish> {
+    return Promise.resolve(DISHES.filter((dish) => (dish.featured))[0]);
   }
 
 }

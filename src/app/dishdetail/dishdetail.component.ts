@@ -24,7 +24,8 @@ export class DishdetailComponent implements OnInit {
   ngOnInit() {
     // fetch the info
     let id = +this.route.snapshot.params['id'];
-    this.dish = this.dishservice.getDish(id);
+    this.dishservice.getDish(id)
+      .then(dish => this.dish = dish);
   }
 
   // add a back button into the card
