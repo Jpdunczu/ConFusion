@@ -13,17 +13,26 @@ export class DishService {
 
   getDishes(): Promise<Dish[]> {
     // this is not a real Promise, as it does not deal with the fact that the service may not reolve immediately.
-    return Promise.resolve(DISHES);
+    return new Promise(resolve => { 
+      // simulate a short delay from server latency with 2 second delay.
+      setTimeout(() => resolve(DISHES), 2000);
+    });
   }
 
   // arrow function in TS is a shorthand way of writing a method.
   // filter the dishes array and filter out only the id which is specified.
   getDish(id: number): Promise<Dish> {
-    return Promise.resolve(DISHES.filter((dish) => (dish.id === id))[0]);
+    return new Promise(resolve => { 
+      // simulate a short delay from server latency with 2 second delay.
+      setTimeout(() => resolve(DISHES.filter((dish) => (dish.id === id))[0]), 2000);
+    });
   }
 
   getFeaturedDish(): Promise<Dish> {
-    return Promise.resolve(DISHES.filter((dish) => (dish.featured))[0]);
+    return new Promise(resolve => { 
+      // simulate a short delay from server latency with 2 second delay.
+      setTimeout(() => resolve(DISHES.filter((dish) => (dish.featured))[0]), 2000);
+    });
   }
 
 }
