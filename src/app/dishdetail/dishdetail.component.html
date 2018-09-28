@@ -14,7 +14,7 @@
                 <h3>{{ dish.name | uppercase }}</h3>
               </mat-card-title>
             </mat-card-header>
-            <img mat-card-image src="{{dish.image}}" alt="{{dish.name}}">
+            <img mat-card-image src="{{BaseURL + dish.image}}" alt="{{dish.name}}">
             <mat-card-content>
               <p> {{ dish.description }} </p>
             </mat-card-content>
@@ -49,7 +49,7 @@
               <span> {{comment.author}} {{comment.date | date }} </span>
             </p>
           </mat-list-item>
-          <mat-list-item>
+          <mat-list-item *ngIf="commentForm.valid">
             <p matLine>
               <span> {{ commentForm.value.comment}} </span>
             </p>
@@ -62,17 +62,17 @@
           </mat-list-item>
           <mat-divider></mat-divider>
           <div>
-              <p> {{ commentForm.value | json }} {{ commentForm.status | json }} </p>
+              <!-- <p> {{ commentForm.value | json }} {{ commentForm.status | json }} </p> -->
           <form novalidate [formGroup]="commentForm" (ngSubmit)="onSubmit()">
               
                 <mat-form-field class="full-width">
                   <input matInput formControlName="author" placeholder="Name" type="text" required>
-                  <mat-error *ngIf="formErrors.author">{{ formErrors.auther }}</mat-error>
+                  <mat-error *ngIf="formErrors.author">{{ formErrors.author }}</mat-error>
                 </mat-form-field>
               
-                
+                <p>
                 <mat-slider formControlName="rating" min="1" max="5" thumbLabel tickInterval="1"></mat-slider>
-                
+                </p>
               
                 <mat-form-field class="full-width">
                   <textarea matInput formControlName="comment" placeholder="Your Comment" rows="5" required></textarea>
