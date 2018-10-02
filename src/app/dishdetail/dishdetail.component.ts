@@ -11,13 +11,23 @@ import { switchMap } from 'rxjs/operators';
 
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Comment } from '../shared/comment';
+import { visibility, flyInOut, expand } from '../animations/app.animation';
 
 import "hammerjs";
 
 @Component({
   selector: 'app-dishdetail',
   templateUrl: './dishdetail.component.html',
-  styleUrls: ['./dishdetail.component.scss']
+  styleUrls: ['./dishdetail.component.scss'],
+  host: {
+    '[@flyInOut]': 'true',
+    'style': 'display: block'
+  },
+  animations: [
+    flyInOut(),
+    visibility(),
+    expand()
+  ]
 })
 
 export class DishdetailComponent implements OnInit {
@@ -28,6 +38,8 @@ export class DishdetailComponent implements OnInit {
   prev: number;
   next: number;
   errMess: string;
+
+  visibility = 'shown';
 
   commentForm: FormGroup;
   newComment: Comment;
@@ -66,10 +78,10 @@ export class DishdetailComponent implements OnInit {
     //let id = +this.route.snapshot.params['id'];
     this.route.params.pipe(
     // the + converts this which is a string to an int value.
-      switchMap((params: Params) => this.dishservice.getDish(+params['id'])))
+      switchMap((params: Params) => { this.visibility = 'hidden'; return this.dishservice.getDish(+params['id']);} ))
     //this.dishservice.getDish(id)
       //.then(dish => this.dish = dish);
-      .subscribe(dish => { this.dish = dish; this.dishcopy = dish; this.setPrevNext(dish.id); }, 
+      .subscribe(dish => { this.dish = dish; this.dishcopy = dish; this.setPrevNext(dish.id); this.visibility = 'shown'; }, 
       errmess => this.errMess = <any>errmess);
   }
 

@@ -5,6 +5,7 @@ import { PROMOTIONS } from '../shared/promotions';
 
 import { Observable, of } from 'rxjs';
 import { delay } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { Restangular } from 'ngx-restangular';
 
 @Injectable({
@@ -12,7 +13,7 @@ import { Restangular } from 'ngx-restangular';
 })
 export class PromotionService {
 
-  constructor() { }
+  constructor(private restangular: Restangular) { }
 
   getPromotions(): Observable<Promotion[]> {
   //getPromotions(): Promise<Promotion[]> {
@@ -23,7 +24,8 @@ export class PromotionService {
     });
     */
     //return of(PROMOTIONS).pipe(delay(2000)).toPromise();
-    return of(PROMOTIONS).pipe(delay(2000));
+    //return of(PROMOTIONS).pipe(delay(2000));
+    return this.restangular.all('promotions').getList();
   }
 
   // arrow function in TS is a shorthand way of writing a method.
@@ -37,7 +39,8 @@ export class PromotionService {
     });
     */
     //return of(PROMOTIONS.filter((promo) => (promo.id === id))[0]).pipe(delay(2000)).toPromise();
-    return of(PROMOTIONS.filter((promo) => (promo.id === id))[0]).pipe(delay(2000));
+    //return of(PROMOTIONS.filter((promo) => (promo.id === id))[0]).pipe(delay(2000));
+    return this.restangular.one('promotions', id).get();
   }
 
   getFeaturedPromotion(): Observable<Promotion> {
@@ -49,6 +52,8 @@ export class PromotionService {
     });
     */
     //return of(PROMOTIONS.filter((promo) => promo.featured)[0]).pipe(delay(2000)).toPromise();
-    return of(PROMOTIONS.filter((promo) => promo.featured)[0]).pipe(delay(2000));
+    //return of(PROMOTIONS.filter((promo) => promo.featured)[0]).pipe(delay(2000));
+    return this.restangular.all('promotions').getList({featured: true})
+      .pipe(map(promotion => promotion[0]));
   }
 }

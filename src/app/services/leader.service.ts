@@ -4,13 +4,15 @@ import { LEADERS } from '../shared/leaders';
 
 import { Observable, of } from 'rxjs';
 import { delay } from 'rxjs/operators';
+import { Restangular } from 'ngx-restangular';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LeaderService {
 
-  constructor() { }
+  constructor(private restangular: Restangular) { }
 
   getLeaders(): Observable<Leader[]> {
   //getLeaders(): Promise<Leader[]> {
@@ -21,7 +23,8 @@ export class LeaderService {
     });
     */
     //return of(LEADERS).pipe(delay(2000)).toPromise();
-    return of(LEADERS).pipe(delay(2000));
+    //return of(LEADERS).pipe(delay(2000));
+    return this.restangular.all('leaders').getList();
   }
 
   getLeader(id: number): Observable<Leader> {
@@ -33,7 +36,8 @@ export class LeaderService {
     });
     */
     //return of(LEADERS.filter((leader) => (leader.id === id))[0]).pipe(delay(2000)).toPromise();
-    return of(LEADERS.filter((leader) => (leader.id === id))[0]).pipe(delay(2000));
+    //return of(LEADERS.filter((leader) => (leader.id === id))[0]).pipe(delay(2000));
+    return this.restangular.one('leaders').get();
   }
 
   getfeaturedLeader(): Observable<Leader> {
@@ -45,6 +49,8 @@ export class LeaderService {
     });
     */
     //return of(LEADERS.filter((leader) => leader.featured)[0]).pipe(delay(2000)).toPromise();
-    return of(LEADERS.filter((leader) => leader.featured)[0]).pipe(delay(2000));
+    //return of(LEADERS.filter((leader) => leader.featured)[0]).pipe(delay(2000));
+    return this.restangular.all('leaders').getList({featured: true})
+      .pipe(map(leader => leader[0]));
   }
 }
