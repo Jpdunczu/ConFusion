@@ -23,9 +23,11 @@ import "hammerjs";
 export class DishdetailComponent implements OnInit {
   
   dish: Dish;
+  dishcopy = null;
   dishIds: number[];
   prev: number;
   next: number;
+  errMess: string;
 
   commentForm: FormGroup;
   newComment: Comment;
@@ -67,7 +69,8 @@ export class DishdetailComponent implements OnInit {
       switchMap((params: Params) => this.dishservice.getDish(+params['id'])))
     //this.dishservice.getDish(id)
       //.then(dish => this.dish = dish);
-      .subscribe(dish => { this.dish = dish; this.setPrevNext(dish.id); });
+      .subscribe(dish => { this.dish = dish; this.dishcopy = dish; this.setPrevNext(dish.id); }, 
+      errmess => this.errMess = <any>errmess);
   }
 
   setPrevNext(dishId: number) {
@@ -100,7 +103,9 @@ export class DishdetailComponent implements OnInit {
     console.log(this.newComment);
     this.date = new Date();
     this.newComment.date = this.date.toISOString();
-    this.dish.comments.push(this.newComment);
+    this.dishcopy.comments.push(this.newComment);
+    this.dishcopy.save()  
+      .subscribe(dish => this.dish = dish); // after a save, the server returns an Observable object.
     this.commentForm.reset({
       author: '',
       rating: 5,

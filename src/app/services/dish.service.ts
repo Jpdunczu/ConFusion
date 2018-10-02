@@ -1,14 +1,18 @@
 import { Injectable } from '@angular/core';
 import { Dish } from '../shared/dish';
 //import { Http, Response } from '@angular/http'; //import { DISHES } from '../shared/dishes';
-import { HttpClient } from '@angular/common/http';
+//import { HttpClient } from '@angular/common/http';
 
 import { baseURL } from '../shared/baseurl';
-//import { ProcessHTTPMsgService } from './process-httpmsg.service';
+import { ProcessHTTPMsgService } from './process-httpmsg.service';
 
-import { Observable, of } from 'rxjs';
-import { delay } from 'rxjs/operators';
-import { map } from 'rxjs/operators';
+//import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
+//import { delay } from 'rxjs/operators';
+import { map, catchError } from 'rxjs/operators';
+//import { ProcessHTTPMsgService } from './process-httpmsg.service';
+import { Restangular } from 'ngx-restangular';
+
 
 // supply the Dishes JS object array to any script that requires it.
 // needs to be injected 
@@ -17,7 +21,9 @@ import { map } from 'rxjs/operators';
 })
 export class DishService {
 
-  constructor(private http: HttpClient,) { }
+  constructor(private restangular: Restangular,
+    //private http: HttpClient,
+    private processHTTPMsgService: ProcessHTTPMsgService) { }
 
   getDishes(): Observable<Dish[]> {
   //getDishes(): Promise<Dish[]> {
@@ -30,7 +36,10 @@ export class DishService {
     */
     //return of(DISHES).pipe(delay(2000)).toPromise();
     //return of(DISHES).pipe(delay(2000));
-    return this.http.get<Dish[]>(baseURL + 'dishes');
+
+    // with HTTP:
+    //return this.http.get<Dish[]>(baseURL + 'dishes').pipe(catchError(this.processHTTPMsgService.handleError));
+    return this.restangular.all('dishes').getList(); // supply the end point, which is 'dishes'
   }
 
   // arrow function in TS is a shorthand way of writing a method.
@@ -45,7 +54,10 @@ export class DishService {
     */
     //return of(DISHES.filter((dish) => (dish.id === id))[0]).pipe(delay(2000)).toPromise();
     //return of(DISHES.filter((dish) => (dish.id === id))[0]).pipe(delay(2000));
-    return this.http.get<Dish>(baseURL + 'dishes/' + id);
+    
+    // with HTTP:
+    //return this.http.get<Dish>(baseURL + 'dishes/' + id).pipe(catchError(this.processHTTPMsgService.handleError));
+    return this.restangular.one('dishes', id).get();
   }
 
   getFeaturedDish(): Observable<Dish> {
@@ -58,12 +70,17 @@ export class DishService {
     */
     //return of(DISHES.filter((dish) => dish.featured)[0]).pipe(delay(2000)).toPromise();
     //return of(DISHES.filter((dish) => dish.featured)[0]).pipe(delay(2000));
-    return this.http.get<Dish>(baseURL + 'dishes?featured=true').pipe(map(dishes => dishes[0]));
+
+    // with HTTP:
+    //return this.http.get<Dish>(baseURL + 'dishes?featured=true').pipe(map(dishes => dishes[0])).pipe(catchError(this.processHTTPMsgService.handleError));
+    return this.restangular.all('dishes').getList({featured: true})
+      .pipe(map(dishes => dishes[0])); // returns array, use .map and => function to just get the 1st element.
   }
 
   getDishIds(): Observable<number[] | any> {
     //return of(DISHES.map(dish => dish.id));
-    return this.getDishes().pipe(map(dishes => dishes.map(dish => dish.id)));
+    return this.getDishes().pipe(map(dishes => dishes.map(dish => dish.id)), 
+      catchError(error => error));
   }
 
 }

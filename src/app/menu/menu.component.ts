@@ -16,6 +16,7 @@ export class MenuComponent implements OnInit {
   // dishes: Dish[] = DISHES;
 
   dishes: Dish[];
+  errMess: string;
 
   // selectedDish: Dish;
 
@@ -29,7 +30,8 @@ export class MenuComponent implements OnInit {
     // Observables use the .subscribe
     this.dishService.getDishes()
       //.then(dishes => this.dishes = dishes);
-      .subscribe(dishes => this.dishes = dishes);
+      .subscribe(dishes => this.dishes = dishes,
+      errmess => this.errMess = <any>errmess.message);  // subscribe provides its' own error handling.
   }
 /*
   onSelect(dish: Dish) {
