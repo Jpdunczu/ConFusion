@@ -5,6 +5,7 @@ import { PROMOTIONS } from '../shared/promotions';
 
 import { Observable, of } from 'rxjs';
 import { delay } from 'rxjs/operators';
+import { Restangular } from 'ngx-restangular';
 
 @Injectable({
   providedIn: 'root'
