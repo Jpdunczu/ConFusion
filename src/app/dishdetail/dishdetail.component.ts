@@ -82,7 +82,7 @@ export class DishdetailComponent implements OnInit {
     //this.dishservice.getDish(id)
       //.then(dish => this.dish = dish);
       .subscribe(dish => { this.dish = dish; this.dishcopy = dish; this.setPrevNext(dish.id); this.visibility = 'shown'; }, 
-      errmess => this.errMess = <any>errmess);
+      errmess => this.errMess = <any>errmess.message);
   }
 
   setPrevNext(dishId: number) {

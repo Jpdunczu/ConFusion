@@ -3,7 +3,9 @@ import { Component, OnInit } from '@angular/core';
 // the Reactive form is built mostly in the code and thereafter mapped into the form elemnts in the template files.
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Feedback, ContactType } from '../shared/feedback';
-import { flyInOut } from '../animations/app.animation';
+import { flyInOut, expand } from '../animations/app.animation';
+
+import { FeedbackService } from '../services/feedback.service';
 
 @Component({
   selector: 'app-contact',
@@ -14,13 +16,15 @@ import { flyInOut } from '../animations/app.animation';
     'style': 'display: block'
   },
   animations: [
-    flyInOut()
+    flyInOut(),
+    expand()
   ]
 })
 export class ContactComponent implements OnInit {
 
   feedbackForm: FormGroup; // formModel which will host the reactive form
   feedback: Feedback; // corresponding data model
+  feedbackCopy = null;
   contactType = ContactType;
   formErrors = { // simple JS object for error messages
     // this is defined here because it will be used in onValueChanged method.
@@ -29,6 +33,9 @@ export class ContactComponent implements OnInit {
     'telnum': '',
     'email': ''
   };
+
+  errMess: string;
+  waiting = false;
 
   // defined in code to be easily extended.
   validationMessages = {
@@ -52,7 +59,8 @@ export class ContactComponent implements OnInit {
     }
   };
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder,
+    private feedbackService: FeedbackService) {
     this.createForm();
   }
 
@@ -96,7 +104,22 @@ export class ContactComponent implements OnInit {
     // the feedbackForm model has an attribute called value which allows you to retrieve the current vallue of all the expilicitly defined variables.
     // in this case, the data model and the form model have the exact same structure, which allows us to do this.
     this.feedback = this.feedbackForm.value;    
-    console.log(this.feedback);
+    //console.log(this.feedback);
+
+    // show the spinner
+    this.waiting = true;
+
+    // submit the form
+    this.feedbackService.submitFeedback(this.feedback)
+      .subscribe(feedback => { 
+        this.waiting = false; 
+        this.feedbackCopy = feedback; 
+        errmess => this.errMess = <any>errmess.message; 
+        setTimeout(() => {
+          this.feedbackCopy = null;
+        }, 5000); 
+      });
+
     this.feedbackForm.reset({
       firstname: '',
       lastname: '',

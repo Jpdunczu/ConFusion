@@ -36,9 +36,9 @@
     </div>
   </div>
 
-  <div fxFlex fxFlexOffset="20px" class="form-size">
+  <div fxFlex fxFlexOffset="20px" class="form-size" *ngIf="!feedbackCopy" [hidden]="waiting" [@expand]>
     <h3>Send us your Feedback</h3>
-    <p> {{ feedbackForm.value | json }} {{ feedbackForm.status | json }} </p>
+    <!-- <p> {{ feedbackForm.value | json }} {{ feedbackForm.status | json }} </p> -->
 
     <form novalidate [formGroup]="feedbackForm" (ngSubmit)="onSubmit()">
       <p>
@@ -86,4 +86,35 @@
       [disabled]="feedbackForm.invalid">Submit</button>
     </form>
   </div>
+
+  <!-- Submitted form -->
+  <div fxFlex *ngIf="feedbackCopy" [@expand]>
+    <mat-card>
+      <mat-card-header>
+          <mat-card-title>
+              <h3>Your Submission</h3>
+          </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+          <p>First Name: {{feedbackCopy.firstname}}</p>
+          <p>Last Name: {{feedbackCopy.lastname}}</p>
+          <p>Tel Number: {{feedbackCopy.telnum}}</p>
+          <p>Email: {{feedbackCopy.email}}</p>
+          <p>Contact You: {{feedbackCopy.agree}}</p>
+          <p>How?: {{feedbackCopy.contacttype}}</p>
+          <p>Feedback: {{feedbackCopy.message}}</p>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <!-- Waiting spinner -->
+  <div *ngIf="waiting">
+    <mat-spinner></mat-spinner> <h4>Submitting Form . . . Please Wait</h4>
+  </div>
+  <!-- Any error messages -->
+  <div *ngIf="errMess">
+    <h2>Error</h2>
+    <h4>{{ errMess }}</h4>
+  </div>
+
 </div>
