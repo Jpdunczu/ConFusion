@@ -1,6 +1,8 @@
 # ConFusion2
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.2.1.
+***IMPORTANT***
+This was built by following along during the exercise instructions. None of the design or implementation is original or my creation, this is from a course being taken on Coursera.org (link in the title description).
 
 ## Development server
 
